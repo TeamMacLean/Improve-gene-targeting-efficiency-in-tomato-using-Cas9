@@ -91,9 +91,9 @@ rule trinity_reads_align:
         # look for R2 file, if exists it is paired data
         if os.path.exists(input.R1.replace("_1.fastq", "_2.fastq")):
             R2=input.R1.replace("_1.fastq", "_2.fastq")
-            shell("tophat2 --rg-id {wildcards.srr} --rg-sample {wildcards.srr} --output-dir {projectdir}/results/{wildcards.srr} " + config['REFERENCE'].replace(".fa",'') + " {input.R1}  {R2} " )
+            shell("tophat2 --rg-id {wildcards.srr} --rg-sample {wildcards.srr} --output-dir {projectdir}/results/{wildcards.srr} {reference} {input.R1}  {R2} " )
         else:
-            shell("bowtie2 --no-unal --no-discordant --rg-id {wildcards.srr}  " + config['REFERENCE'].replace(".fa",'') + " -U {input.R1} -S {output}")
+            shell("bowtie2 --no-unal --no-discordant --rg-id {wildcards.srr} {reference} -U {input.R1} -S {output}")
 
 rule trinity_reads_align_merge:
     input: expand("{projectdir}/results/{srr}/accepted_hits.bam", projectdir=projectdir, srr=rnaseq)
@@ -131,7 +131,7 @@ rule bowtie2_unpaired_align:
 
 rule run_rnaseq:
     # input: expand("{projectdir}/results/{srr}/accepted_hits.bam", projectdir=projectdir, srr=rnaseq)
-    input: "{projectdir}/results/rnaseq_reads_aligned_merged_accepted_hits.bam"
+    input:expand("{projectdir}/results/{srr}/accepted_hits.bam", projectdir=projectdir, srr=rnaseq)
 
 rule run_dnase:
     input: expand("{projectdir}/results/{datatype}/{srr}_bowtie_aligned.bam", projectdir=projectdir, datatype="dnase", srr=dnase)

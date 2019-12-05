@@ -1,0 +1,29 @@
+{
+	"__default__": {
+		"partition": "tsl-long",
+		"cpus": 4,
+		"memory": "40G"
+	},
+	"bowtie_indexing": {
+		"cpus": 4,
+		"memory": "10G"
+	},
+	"trimmomatic": {
+		"memory": "10G",
+		"cpus": 2
+	},
+	"bowtie_mapping": {
+		"memory": "60G",
+		"cpus": 4
+	},
+	"assembly_polish": {
+                "memory": "200G",
+                "cpus": 2
+	},
+	"trinity_reads_align":{
+		"memory": "60G",
+		"cpus": 2
+	}
+
+
+}
